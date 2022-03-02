@@ -12,6 +12,6 @@ FLINT.Cloud is a cloud-based service for FLINT. It allows users to run simulatio
 ## About FLINT-UI
 FLINT-UI is a web-based user interface for FLINT for configuring simulations using the FLINT.Cloud APIs and run workflows on browser itself.
 
-## Weekely Plans
+## Weekly Plans
 
-## Weekely Progress Summary
+## Weekly Progress Summary
