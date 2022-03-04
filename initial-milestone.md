@@ -14,4 +14,4 @@ Currently, there are five main data types for the FLINT inputs: JSON, CSV, SQL D
    This also includes building components in the FLINT-UI to view and modify the input metadata.
    
 ## Task - 3: Extend help to FLINT-UI
-   I'm currently new to vue.js so I'll also be taking up beginner-friendly issues in the UI project for the initial weeks so I don't face any difficulties while on bigger things in the coming weeks. For that reason, I shall be working along my co-mentee [Soham](https://github.com/sohamsshah) to help with his work. I'm currently working on to build a footer. The issue can be found [here](https://github.com/moja-global/FLINT-UI/issues/116)
+   I'm currently new to vue.js so I'll also be taking up beginner-friendly issues in the UI project for the initial weeks so I don't face any difficulties while working on bigger things in the coming weeks. For that reason, I shall be working along my co-mentee [Soham](https://github.com/sohamsshah) to help with his work. I'm currently working on to build a footer. The issue can be found [here](https://github.com/moja-global/FLINT-UI/issues/116)
