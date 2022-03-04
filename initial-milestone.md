@@ -1,7 +1,7 @@
 # Initial Milestone
 
 ## Task-1: Investigate the different data types used in FLINT stimulations. 
-Currently, there are five main data types for the FLINT inputs: JSON, CSV, SQL DB, GeoTIFF, Shapefiles. They can be found inside the [Standalone_GCBM/layer](https://github.com/moja-global/GCBM.Belize/tree/master/Standalone_GCBM/layerss) and [Standalone_GCBM/input_database](https://github.com/moja-global/GCBM.Belize/tree/master/Standalone_GCBM/input_database).
+Currently, there are five main data types for the FLINT inputs: JSON, CSV, SQL DB, GeoTIFF, Shapefiles. They can be found inside the [Standalone_GCBM/layer](https://github.com/moja-global/GCBM.Belize/tree/master/Standalone_GCBM/layers) and [Standalone_GCBM/input_database](https://github.com/moja-global/GCBM.Belize/tree/master/Standalone_GCBM/input_database).
  
 1. Install required libraries/dependencies to open the files in a python notebook.
 2. Test the code for each data-type, look for various data and store them a in a JSON.
