@@ -9,12 +9,16 @@ import glob
 path = "/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/tiled_endpoints/tiled"
 dir_list = os.listdir(path)
 
-d = "tiled"
-for path in os.listdir(path):
-    full_path = os.path.join(d, path)
-    if os.path.isfile(full_path):
-        print (full_path)
+path1 = 'tiled_endpoints/tiled'
 
+file_list = []
+
+for path1, folders, files in os.walk(path1):
+    for file in files:
+        file_list.append(os.path.join(path1, file))
+
+for filename in file_list:
+    print(filename)
 
 dictionary ={
     "Providers": {
