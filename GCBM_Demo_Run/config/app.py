@@ -4,7 +4,7 @@ import os
 import json
 #import glob
 import glob
-import rasterio 
+import rasterio as rst
 from rasterio.plot import show
 
 # fp = r'GCBM_Demo_Run/layers/tiled/classifiers/Classifier1_moja.tiff'
@@ -12,7 +12,24 @@ from rasterio.plot import show
 # print(img.count)
 # print(img.block_size)
 
-fp = r''
+fp = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/classifiers/Classifier1_moja.tiff'
+
+img = rst.open(fp)
+
+##nodata
+print(img.nodata)
+
+## cellLatSize, cellLOnSize
+t = img.transform
+x = t[0]
+y =-t[4]
+print(x,y)
+
+##blockLatSize, blockLonSize
+print(x*400, y*400)
+
+## tileLatSize, tileLonSize
+print(x*4000, x*4000)
 
 # folder containing classifiers
 path = "/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/classifiers"
