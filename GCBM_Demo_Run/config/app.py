@@ -23,102 +23,51 @@ dir_list = os.listdir(path)
 dir_list1 = os.listdir(path1)
 dir_list2 = os.listdir(path2)
 
-# provider_config.json
-
-# for ob in dir_list:
-#     fp1 = r'ob'
-#     img = rst.open(fp1)
-#     print(img.nodata)
-
-# fp1 = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/classifiers/Classifier1_moja.tiff'
-
-# fp2 = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/classifiers/Classifier2_moja.tiff'
-
-# fp3 = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/disturbances/disturbances_2011_moja.tiff'
-
-# fp4 = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/disturbances/disturbances_2012_moja.tiff'
-
-# fp5 = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/disturbances/disturbances_2013_moja.tiff'
-
-# fp6 = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/disturbances/disturbances_2014_moja.tiff'
-
-# fp7 = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/disturbances/disturbances_2015_moja.tiff'
-
-# fp8 = f'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/disturbances/disturbances_2016_moja.tiff'
-
-# fp9 = f'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/disturbances/disturbances_2018_moja.tiff'
-
-# fp10 = f'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/miscellaneous/initial_age_moja.tiff'
-
-# fp11 = f'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/miscellaneous/mean_annual_temperature_moja.tiff'
-
-
-
-# img1 = rst.open(fp1)
-# img2 = rst.open(fp2)
-
-
-# t = img1.transform
-# x1 = t[0]
-# y1 = -t[4]
-
-# t2 = img2.transform
-# x2 = t2[0]
-# y2 = -t2[4]
-# print(x1,y1)
+# config provider
 
 Rasters = []
+cellLatSize = []
+cellLonSize = []
 
-# for thisFile in os.listdir(path):
-#     # fN, fE = os.path.splitext(thisFile)
-#     # if fE.upper() == '.tiff':
-#     # fp = f'thisFile'
-#     # img = rst.open(fp)
-#     # x = img.nodata
-#     d = dict()
-#     d = thisFile
-
-#     Rasters.append(d)
-#         # Rasters.append(thisFile)
-
-# print(Rasters)
-
-
-
-
-# for filepath in pathlib.Path(path).glob('**/*'):
-#     ab = filepath.absolute()
-#     # print(filepath.absolute())
-#     print(type(ab))
-    # fp = r'ab'
-    # img = rst.open(fp)
-    # print(img.nodata)
-    # Rasters.append(ab)
-    # print(Rasters)
-
-
+## find absolute path of all the .tiff files in the classifier, disturbance and misc directory and store them in Rasters list
 for root, dirs, files in os.walk(os.path.abspath(path)):
     for file in files:
         fp = os.path.join(root, file)
         Rasters.append(fp)
-        # res = [Rasters[0], Rasters[-1]]
-        # print(str(res))
-        print(Rasters)
-        # print(Rasters[1])
-        # x = r'os.path.join(root, file)'
-        # img = rst.open(x)
-        # print(img.nodata)
-        # print(os.path.join(root, file))
 
-# nums = [1, 2, 3, 4, 5]
+for root, dirs, files in os.walk(os.path.abspath(path1)):
+    for file in files:
+        fp1 = os.path.join(root, file)
+        Rasters.append(fp1)
 
-# print(nums[0])
-# print(nums[2])
-# print(nums)
+for root, dirs, files in os.walk(os.path.abspath(path2)):
+    for file in files:
+        fp2 = os.path.join(root, file)
+        Rasters.append(fp2)
 
+## loop through all the absolute file path stored in Rasters, denoted by nd and perform raster operation to find the resolution of the images(cellLatSize and cellLonSize) and store them all in cellLatSize and CellLonSize lists
+    for nd in Rasters:
+        img = rst.open(nd)
+        t = img.transform
+        x = t[0]
+        y = -t[4]
+        cellLatSize.append(x)
+        cellLonSize.append(y)
 
+## verify all the elements in the lists are identical, if that is so, store them in the below variables that shall be passed to the config provider        
 
+result = all(element == cellLatSize[0] for element in cellLatSize)
+if (result):
+    cellLat = x
+    cellLon = y
+    blockLat = x*400
+    blockLon = y*400
+    tileLat = x*4000
+    tileLon = y*4000
+else:
+    print("Corrupt files")
 
+    
 dictionary ={
     "Providers": {
         "SQLite": {
@@ -129,19 +78,17 @@ dictionary ={
             "layers": [
 
             ],
-            "blockLonSize": 0.1,
-            "tileLatSize": 1.0,
-            "tileLonSize": 1.0,
-            "cellLatSize": 0.00025,
-            "cellLonSize": 0.00025,
-            "blockLatSize": 0.1,
+            "blockLonSize": blockLon,
+            "tileLatSize": tileLat,
+            "tileLonSize": tileLon,
+            "cellLatSize": cellLat,
+            "cellLonSize": cellLon,
+            "blockLatSize": blockLat,
             "type": "RasterTiledGDAL",
             "library": "moja.modules.gdal"
         }
     }
 }
-
-
 
 
 # used a for loop to loop through all the files in a particular folder and sliced the file names as required ---> for disturbance folder
@@ -158,6 +105,7 @@ for ob in dir_list1:
 dictionary["Providers"]["RasterTiled"]["layers"] = lst
 
 # repeat the same for classifier folder
+
 for ob in dir_list:
     d = dict()
     d["name"] = ob[:-10] 
@@ -166,9 +114,6 @@ for ob in dir_list:
 
     lst.append(d)
 dictionary["Providers"]["RasterTiled"]["layers"] = lst
-
-
-
 
 # for miscellaneous folder
 
@@ -181,15 +126,7 @@ for ob in dir_list2:
     lst.append(d)
 dictionary["Providers"]["RasterTiled"]["layers"] = lst
 
-# lst2 = []
-# e = dict()
-# e["cell"] = 1
-# lst2.append(e)
-# dictionary["Providers"]["RasterTiled"] = lst2
-# dictionary["Providers"]["RasterTiled"]["layers"] = lst
-
 json_object = json.dumps(dictionary, indent = 4)
-
 
 with open("provider_config.json", "w") as outfile:
      outfile.write(json_object)

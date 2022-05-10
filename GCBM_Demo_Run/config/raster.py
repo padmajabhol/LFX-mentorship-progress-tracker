@@ -2,7 +2,8 @@ import rasterio as rst
 from rasterio.plot import show
 
 
-fp = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/classifiers/Classifier1_moja.tiff'
+fp = '/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/miscellaneous/initial_age_moja.tiff'
+# z = r'fp'
 
 img = rst.open(fp)
 
