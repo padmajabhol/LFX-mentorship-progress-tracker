@@ -4,32 +4,10 @@ import os
 import json
 #import glob
 import glob
+#import rasterio
 import rasterio as rst
-from rasterio.plot import show
 
-# fp = r'GCBM_Demo_Run/layers/tiled/classifiers/Classifier1_moja.tiff'
-# img = rasterio.open(fp)
-# print(img.count)
-# print(img.block_size)
-
-fp = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/classifiers/Classifier1_moja.tiff'
-
-img = rst.open(fp)
-
-##nodata
-print(img.nodata)
-
-## cellLatSize, cellLOnSize
-t = img.transform
-x = t[0]
-y =-t[4]
-print(x,y)
-
-##blockLatSize, blockLonSize
-print(x*400, y*400)
-
-## tileLatSize, tileLonSize
-print(x*4000, x*4000)
+import pathlib
 
 # folder containing classifiers
 path = "/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/classifiers"
@@ -47,6 +25,79 @@ dir_list2 = os.listdir(path2)
 
 # provider_config.json
 
+# for ob in dir_list:
+#     fp1 = r'ob'
+#     img = rst.open(fp1)
+#     print(img.nodata)
+
+# fp1 = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/classifiers/Classifier1_moja.tiff'
+
+# fp2 = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/classifiers/Classifier2_moja.tiff'
+
+# fp3 = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/disturbances/disturbances_2011_moja.tiff'
+
+# fp4 = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/disturbances/disturbances_2012_moja.tiff'
+
+# fp5 = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/disturbances/disturbances_2013_moja.tiff'
+
+# fp6 = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/disturbances/disturbances_2014_moja.tiff'
+
+# fp7 = r'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/disturbances/disturbances_2015_moja.tiff'
+
+# fp8 = f'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/disturbances/disturbances_2016_moja.tiff'
+
+# fp9 = f'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/disturbances/disturbances_2018_moja.tiff'
+
+# fp10 = f'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/miscellaneous/initial_age_moja.tiff'
+
+# fp11 = f'/home/padmajabhol/Desktop/Code/GitHub/LFX-mentorship-progress-tracker/GCBM_Demo_Run/layers/tiled/miscellaneous/mean_annual_temperature_moja.tiff'
+
+
+
+# img1 = rst.open(fp1)
+# img2 = rst.open(fp2)
+
+
+# t = img1.transform
+# x1 = t[0]
+# y1 = -t[4]
+
+# t2 = img2.transform
+# x2 = t2[0]
+# y2 = -t2[4]
+# print(x1,y1)
+
+Rasters = []
+
+# for thisFile in os.listdir(path):
+#     # fN, fE = os.path.splitext(thisFile)
+#     # if fE.upper() == '.tiff':
+#     # fp = f'thisFile'
+#     # img = rst.open(fp)
+#     # x = img.nodata
+#     d = dict()
+#     d = thisFile
+
+#     Rasters.append(d)
+#         # Rasters.append(thisFile)
+
+# print(Rasters)
+
+
+
+
+for filepath in pathlib.Path(path).glob('**/*'):
+    ab = filepath.absolute()
+    print(filepath.absolute())
+    fp = r'filepath.absolute(1)'
+    img = rst.open(fp)
+    print(img.nodata)
+    Rasters.append(ab)
+    # print(Rasters)
+
+
+
+
 dictionary ={
     "Providers": {
         "SQLite": {
@@ -55,7 +106,7 @@ dictionary ={
         },
         "RasterTiled": {
             "layers": [
-    
+
             ],
             "blockLonSize": 0.1,
             "tileLatSize": 1.0,
@@ -68,6 +119,9 @@ dictionary ={
         }
     }
 }
+
+
+
 
 # used a for loop to loop through all the files in a particular folder and sliced the file names as required ---> for disturbance folder
 
@@ -92,6 +146,9 @@ for ob in dir_list:
     lst.append(d)
 dictionary["Providers"]["RasterTiled"]["layers"] = lst
 
+
+
+
 # for miscellaneous folder
 
 for ob in dir_list2:
@@ -103,7 +160,15 @@ for ob in dir_list2:
     lst.append(d)
 dictionary["Providers"]["RasterTiled"]["layers"] = lst
 
+# lst2 = []
+# e = dict()
+# e["cell"] = 1
+# lst2.append(e)
+# dictionary["Providers"]["RasterTiled"] = lst2
+# dictionary["Providers"]["RasterTiled"]["layers"] = lst
+
 json_object = json.dumps(dictionary, indent = 4)
+
 
 with open("provider_config.json", "w") as outfile:
      outfile.write(json_object)
@@ -128,7 +193,7 @@ dictionary2 = {
             "library": "moja.modules.cbm",
             "settings": {
                 "vars": [
-                    
+
                 ]
             }
         },
@@ -172,7 +237,7 @@ dictionary2 = {
     }
 }
 
-# repeat the sam e process that we used to generate the provider_config.json file, though modules_cbm.json only requires disturbance files
+# repeat the same process that we used to generate the provider_config.json file, though modules_cbm.json only requires disturbance files
 
 lst2 = []
 for ob in dir_list1:
